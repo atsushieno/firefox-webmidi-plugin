@@ -1,5 +1,8 @@
 RT-WebMIDI: Web MIDI API support for Firefox.
 
+Nothing is implemented. It is just a stub yet.
+No required JavaScript is written, nor C++ plugin implementation.
+
 Build
 -----
 
