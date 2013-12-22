@@ -1,2 +1,10 @@
+.sconsign.dblite
+external/nixysa
+glue
+libwebmidi.so
+parser.out
+plugin.os
+webmidi.os
 xpi/plugins/libwebmidi.so
-
+xpi/build
+xpi/RT-WebMIDI.xpi

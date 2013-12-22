@@ -6,7 +6,7 @@
 	<property name="build.path" value="build" />
 	<property name="build.chrome.path" value="${build.path}/chrome" />
 	<property name="chrome.path" value="chrome" />
-	<property name="xpi.file" value="${RDF.Description.em:name}-${RDF.Description.em:version}.xpi" />
+	<property name="xpi.file" value="${RDF.Description.em:name}.xpi" />
 	<property name="jar.file" value="compact.jar" />
 
 	<!-- deploy -->	

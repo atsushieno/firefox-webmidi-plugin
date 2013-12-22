@@ -1,7 +1,7 @@
 
-all: xpi/RtWebMidi-0.1.xpi
+all: xpi/RtWebMidi.xpi
 
-xpi/RtWebMidi-0.1.xpi: xpi/plugins/libwebmidi.so
+xpi/RtWebMidi.xpi: xpi/plugins/libwebmidi.so
 	cd xpi && ant xpi
 
 xpi/plugins/libwebmidi.so: libwebmidi.so

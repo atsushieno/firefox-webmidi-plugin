@@ -75,17 +75,25 @@ class WebMidiMap {
 	WebMidiPortList values ();
 	WebMidiPort get (std::string key);
 	bool has (std::string key);
+	
+	bool findsOutput;
 };
 
 class WebMidiAccess {
   public:
 	WebMidiAccess ();
+	~WebMidiAccess ();
 	WebMidiMap inputs ();
 	WebMidiMap outputs ();
 	void onConnect (WebMidiPort port);
 	void onDisconnect ();
 	bool isSysexEnabled ();
 	void setSysexEnabled (bool requireSysex);
+
+  private:
+	WebMidiMap *_inputs;
+	WebMidiMap *_outputs;
+	bool _sysex_enabled;
 };
 
 #endif  // WEBMIDI_H

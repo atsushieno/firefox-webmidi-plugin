@@ -15,6 +15,8 @@
 #include <string>
 #include <vector>
 #include "webmidi.h"
+#include "external/rtmidi/RtMidi.h"
+#include "external/rtmidi/RtError.h"
 
 // =====================================================================
 // WebMidiAccess
@@ -22,14 +24,26 @@
 
 WebMidiAccess::WebMidiAccess ()
 {
+	_inputs = new WebMidiMap ();
+	_inputs->findsOutput = false;
+	_outputs = new WebMidiMap ();
+	_outputs->findsOutput = true;
+}
+
+WebMidiAccess::~WebMidiAccess ()
+{
+	delete _inputs;
+	delete _outputs;
 }
 
 WebMidiMap WebMidiAccess::inputs ()
 {
+	return _inputs;
 }
 
 WebMidiMap WebMidiAccess::outputs ()
 {
+	return _outputs;
 }
 
 void WebMidiAccess::onConnect (WebMidiPort port)
@@ -42,10 +56,12 @@ void WebMidiAccess::onDisconnect ()
 
 bool WebMidiAccess::isSysexEnabled ()
 {
+	return _sysex_enabled;
 }
 
 void WebMidiAccess::setSysexEnabled (bool sysexEnabled)
 {
+	_sysex_enabled = sysexEnabled;
 }
 
 // =====================================================================
