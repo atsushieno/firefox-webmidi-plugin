@@ -1,0 +1,9 @@
+RT-WebMIDI: Web MIDI API support for Firefox.
+
+Build
+-----
+
+Makefile is for xpi packaging.
+
+scons is for building plugin native library (libwebmidi.so).
+

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+<project name="xpi" default="deploy" basedir=".">
+
+	<!-- properties -->
+	<xmlproperty file="install.rdf" />
+	<property name="build.path" value="build" />
+	<property name="build.chrome.path" value="${build.path}/chrome" />
+	<property name="chrome.path" value="chrome" />
+	<property name="xpi.file" value="${RDF.Description.em:name}-${RDF.Description.em:version}.xpi" />
+	<property name="jar.file" value="compact.jar" />
+
+	<!-- deploy -->	
+	<target name="deploy" depends="xpi">
+		<exec executable="cmd.exe" os="Windows XP">
+			<arg line="/c start ${xpi.file}" />
+		</exec>
+	</target>
+
+	<!-- create xpi -->
+	<target name="xpi" depends="jar">
+		<mkdir dir="${build.path}" />
+		<copy todir="${build.path}">
+			<fileset dir=".">
+				<exclude name="build.xml" />
+				<exclude name="*.xpi" />
+				<exclude name="${chrome.path}/**" />
+				<exclude name="${build.path}/**" />
+				<exclude name="**/.*.sw?" />
+			</fileset>
+		</copy>
+		<zip destfile="${xpi.file}" basedir="${build.path}" />
+	</target>
+	
+	<!-- create chrome jar -->
+	<target name="jar">
+		<mkdir dir="${build.chrome.path}" />
+		<zip destfile="${build.chrome.path}/${jar.file}" compress="false">
+			<fileset dir="${chrome.path}">
+				<exclude name="*.jar" />
+				<exclude name="**/.*.sw?" />
+			</fileset>
+		</zip>
+	</target>
+
+	<!-- clean -->
+	<target name="clean">
+		<delete>
+			<fileset dir="." includes="*.xpi" />
+		</delete>
+		<delete dir="${build.path}" quiet="true" />
+	</target>
+	
+</project>
+
