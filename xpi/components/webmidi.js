@@ -1,5 +1,5 @@
 
-if (Navigator.requestMIDIAccess === undefined) {
+if (Navigator.prototype.requestMIDIAccess === undefined) {
 
 	MIDIPortType = {"input": 0, "output": 1};
 
@@ -114,11 +114,14 @@ if (Navigator.requestMIDIAccess === undefined) {
 	MIDIAccess.prototype.constructor = MIDIAccess;
 
 	// Navigator
-	
-	Navigator.requestMIDIAccess = function (options) {
+
+	Navigator.prototype.requestMIDIAccess = function (options) {
 		return new Promise (function (resolver) {
 			var access = new MIDIAccess (options);
 			resolver (access);
 			});
 	};
+	
+	if (navigator.requestMIDIAccess === undefined)
+		navigator.requestMIDIAccess = Navigator.prototype.requestMIDIAccess;
 }
