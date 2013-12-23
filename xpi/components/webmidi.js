@@ -92,13 +92,23 @@ if (Navigator.prototype.requestMIDIAccess === undefined) {
 
 	function MIDIOptions () {}
 
+	function MIDIConnectionEvent () {}
+	MIDIConnectionEvent.prototype = new Event ("MIDIConnectionEvent");
+
 	function MIDIAccess (options)
 	{
 		this.__options = options;
+
+		var plugin = document.createElement ("object");
+		plugin.setAttribute ("type", "application/RtWebMidi");
+		plugin.setAttribute ("width", "0");
+		plugin.setAttribute ("height", "0");
+		// TODO: find any other way that we don't have to inject the document...
+		document.documentElement.appendChild (plugin);
 		
 		Object.defineProperty (this, "sysExEnabled",
 			{ get: function () { return options != null && options.sysex == true; } });
-		var binding = new WebMidiAccess ();
+		var binding = plugin.WebMidiAccess ();
 		binding.setSysexEnabled (this.sysExEnabled);
 		var inputMap = new MIDIInputMap (binding);
 		Object.defineProperty (this, "inputs",
@@ -106,8 +116,21 @@ if (Navigator.prototype.requestMIDIAccess === undefined) {
 		var outputMap = new MIDIOutputMap (binding);
 		Object.defineProperty (this, "outputs",
 			{ get: function () { return outputMap; } });
-		this.onconnect = new EventHandler ();
-		this.ondisconnect = new EventHandler ();
+
+		var onConnectionEvent = function (access, port, name) {
+			var evt = document.createEvent ("Event");
+			evt.initEvent (name, true, true);
+			evt.port = port;
+			access.dispatchEvent (evt);
+		}
+		var waitConnectionSingle = function (func, waiter, name) {
+			var newPort = waiter ();
+			onConnectionEvent (access, newPort, name);
+			waitConnectionSingle (func, waiter, name);
+		}
+		// FIXME: It cannot be like this. Promise runs on the same thread, so it cannot block.
+		new Promise (function (resolver) { waitConnectionSingle (resolver, function () { return binding.waitConnection (); }, "connect"); });
+		new Promise (function (resolver) { waitConnectionSingle (resolver, function () { return binding.waitDisconnection (); }, "disconnect"); });
 	}
 	
 	MIDIAccess.prototype = Object.create (EventTarget.prototype);

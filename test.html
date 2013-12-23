@@ -3,9 +3,22 @@
 <html>
 <head>
 <script type="text/javascript" src="xpi/components/webmidi.js"></script>
+<script type="text/javascript"><!--
+
+function bodyLoaded()
+{
+	p = navigator.requestMIDIAccess ();
+	p.then (function (access) {
+		alert (access);
+	}, function (msg) {
+		alert (msg);
+	});
+}
+
+//--></script>
 </head>
 
-<body>
+<body onload='bodyLoaded()'>
 	<object type="application/RtWebMidi" id="plugin" width="0" height="0"> </object>
 	<p>This page loads webmidi.js directly.</p>
 </body>

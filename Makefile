@@ -1,15 +1,19 @@
 
+
 all: xpi/RtWebMidi.xpi
 
-xpi/RtWebMidi.xpi: xpi/plugins/libwebmidi.so
+xpi/RtWebMidi.xpi: build_plugin_lib xpi/plugins/libwebmidi.so
 	cd xpi && ant xpi
 
-xpi/plugins/libwebmidi.so: libwebmidi.so
+xpi/plugins/libwebmidi.so:
 	mkdir -p xpi/chrome
 	mkdir -p xpi/plugins
 	cd xpi/plugins && ln -s ../../libwebmidi.so .
 
-libwebmidi.so: external/nixysa
+.PHONY:
+build_plugin_lib: external/nixysa libwebmidi.so
+
+libwebmidi.so: *.cc *.h *.idl
 	scons
 
 external/nixysa:

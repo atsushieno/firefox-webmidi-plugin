@@ -1,14 +1,14 @@
 <RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:em="http://www.mozilla.org/2004/em-rdf#">
   <Description about="urn:mozilla:install-manifest">
-    <em:id>rt-webmidi@veritas-vos-liberabit.com</em:id>
+    <em:id>firefox-webmidi-plugin@veritas-vos-liberabit.com</em:id>
     <em:name>RT-WebMIDI</em:name>
     <em:version>0.1</em:version>
     <em:type>2</em:type>
     <em:targetPlatform>Linux_x86_64-gcc3</em:targetPlatform>
     <em:unpack>true</em:unpack>
     <em:creator>Atsushi Eno</em:creator>
-    <em:homepageURL>https://github.com/atsushieno/rt-webmidi</em:homepageURL>
+    <em:homepageURL>https://github.com/atsushieno/firefox-webmidi-plugin</em:homepageURL>
     <em:targetApplication>
       <Description>
         <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id> <!--Firefox-->

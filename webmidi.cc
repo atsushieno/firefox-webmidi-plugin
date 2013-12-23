@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <unistd.h>
 #include <string>
 #include <vector>
 #include "webmidi.h"
@@ -24,16 +25,14 @@
 
 WebMidiAccess::WebMidiAccess ()
 {
-	_inputs = new WebMidiMap ();
-	_inputs->findsOutput = false;
-	_outputs = new WebMidiMap ();
-	_outputs->findsOutput = true;
+	_inputs = WebMidiMap ();
+	_inputs.findsOutput = false;
+	_outputs = WebMidiMap ();
+	_outputs.findsOutput = true;
 }
 
 WebMidiAccess::~WebMidiAccess ()
 {
-	delete _inputs;
-	delete _outputs;
 }
 
 WebMidiMap WebMidiAccess::inputs ()
@@ -46,12 +45,14 @@ WebMidiMap WebMidiAccess::outputs ()
 	return _outputs;
 }
 
-void WebMidiAccess::onConnect (WebMidiPort port)
+WebMidiPort WebMidiAccess::waitConnection ()
 {
+	sleep (65536);
 }
 
-void WebMidiAccess::onDisconnect ()
+WebMidiPort WebMidiAccess::waitDisconnection ()
 {
+	sleep (65536);
 }
 
 bool WebMidiAccess::isSysexEnabled ()
@@ -120,8 +121,9 @@ std::string WebMidiPort::version ()
 {
 }
 
-void WebMidiPort::onDisconnect ()
+void WebMidiPort::waitDisconnection ()
 {
+	sleep (65536);
 }
 
 // =====================================================================
@@ -132,7 +134,7 @@ WebMidiInput::WebMidiInput ()
 {
 }
 
-void WebMidiInput::onMidiMessage (WebMidiMessage message)
+WebMidiMessage WebMidiInput::getNextMessage ()
 {
 }
 

@@ -42,7 +42,7 @@ class WebMidiPort {
 	std::string name ();
 	int type ();
 	std::string version ();
-	void onDisconnect ();
+	void waitDisconnection ();
 };
 
 class WebMidiOutput : public WebMidiPort {
@@ -54,7 +54,7 @@ class WebMidiOutput : public WebMidiPort {
 class WebMidiInput : public WebMidiPort {
   public:
 	WebMidiInput ();
-	void onMidiMessage (WebMidiMessage message);
+	WebMidiMessage getNextMessage ();
 };
 
 class WebMidiPortDictionary : public std::map<std::string,WebMidiPort> {
@@ -85,14 +85,14 @@ class WebMidiAccess {
 	~WebMidiAccess ();
 	WebMidiMap inputs ();
 	WebMidiMap outputs ();
-	void onConnect (WebMidiPort port);
-	void onDisconnect ();
+	WebMidiPort waitConnection ();
+	WebMidiPort waitDisconnection ();
 	bool isSysexEnabled ();
 	void setSysexEnabled (bool requireSysex);
 
   private:
-	WebMidiMap *_inputs;
-	WebMidiMap *_outputs;
+	WebMidiMap _inputs;
+	WebMidiMap _outputs;
 	bool _sysex_enabled;
 };
 
